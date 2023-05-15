@@ -3,8 +3,8 @@ import requests
 from streamlit_lottie import st_lottie
 from streamlit_option_menu import option_menu
 from streamlit_extras.switch_page_button import switch_page
-from chatterbot import ChatBot
-from chatterbot.trainers import ChatterBotCorpusTrainer
+# from chatterbot import ChatBot
+# from chatterbot.trainers import ChatterBotCorpusTrainer
 # from streamlit_extras.colored_header import colored_header
 
 
