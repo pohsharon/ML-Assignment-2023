@@ -1,7 +1,12 @@
 import streamlit as st 
-import requests
+import requests 
 from streamlit_lottie import st_lottie
 from streamlit_option_menu import option_menu
+from streamlit_extras.switch_page_button import switch_page
+from chatterbot import ChatBot
+from chatterbot.trainers import ChatterBotCorpusTrainer
+# from streamlit_extras.colored_header import colored_header
+
 
 #Page config
 st.set_page_config(page_title="Heart Disease", page_icon=":anatomical_heart:", layout="wide")
@@ -11,12 +16,12 @@ with st.sidebar:
     menu=option_menu(menu_title="Main Menu", options=["Home", "Predictions", "Statistics"], icons=["house", "bar-chart-line", "graph-up-arrow"])
 
 #Create horizontal menu
-selected=option_menu(menu_title=None, options=["Home", "Predictions", "Statistics"], icons=["house", "bar-chart-line", "graph-up-arrow"], orientation="horizontal")
+# selected=option_menu(menu_title=None, options=["Home", "Predictions", "Statistics"], icons=["house", "bar-chart-line", "graph-up-arrow"], orientation="horizontal")
 
 
 st.markdown("""
 <style>
-.css-10pw50.egzxvld1{
+.css-164nlkn.egzxvld1{
     visibility: hidden;
 }
 </style>
@@ -24,7 +29,8 @@ st.markdown("""
 
 
 #If selection is home in sidebar
-if menu=="Home" or selected=="Home":
+# if menu=="Home" or selected=="Home":
+if menu=="Home":
     # menu=="Home"
     # selected="Home"
     #Animation
@@ -42,6 +48,7 @@ if menu=="Home" or selected=="Home":
     #Symptoms
     col1, col2=st.columns(2)
     with col1:
+        # colored_header(label="What are the symptoms?", description="Heart disease symptoms depend on the type of heart disease", color_name="violet-70")
         st.header("What are the symptoms?")
         # st.write("##")
         st.write("""
@@ -134,11 +141,12 @@ if menu=="Home" or selected=="Home":
     st.write("##")
     st.video("HeartVid.mp4")
 
-#If seclection is predictions insidebar
-#Used to predict presence of heart disease based on input features
-if menu=="Predictions" or selected=="Predictions":
-    # menu="Predictions"
-    # selected="Predictions"
+# #If seclection is predictions insidebar
+# #Used to predict presence of heart disease based on input features
+# # if menu=="Predictions" or selected=="Predictions":
+if menu=="Predictions":
+#     # menu="Predictions"
+#     # selected="Predictions"
     st.markdown("<h1 style='text-align:center; '>Heart Disease Prediction</h1>", unsafe_allow_html=True)
     # with st.form("Form 1", clear_on_submit=True):
     with st.form("Form 1"):
@@ -157,7 +165,7 @@ if menu=="Predictions" or selected=="Predictions":
             st.write("##")
             exang=col1.selectbox("Exercise Induced Angina", options=("---", "Yes", "No"))
             st.write("##")
-            ca=col1.slider("Number of Major Vessels Colored by Fluoroscopy",  min_value=0, max_value=3)
+            ca=col1.number_input("Number of Major Vessels Colored by Fluoroscopy", 0, 3)
             st.write("##")
             thal=col1.selectbox("Exercise Induced Angina", options=("---", "Normal", "Fixed Defect", "Reversible Defect"))
 
@@ -171,12 +179,12 @@ if menu=="Predictions" or selected=="Predictions":
             st.write("##")
             restecg=col2.selectbox("Resting Electrocardiographic Results", options=("---", "Normal", "Having ST-T wave abnormality","showing probable or definite left ventricular hypertrophy"))
             st.write("##")
-            oldpeak=col2.slider("ST depression Induced by Exercise Relative to Rest", min_value=0, max_value=7)
-            st.write("##")
             slope=col2.selectbox("Slope of the peak exercise ST segment", options=("---", "Unsloping", "Flat","Downsloping"))
+            st.write("##")
+            oldpeak=col2.number_input("ST depression Induced by Exercise Relative to Rest", 0, 7)
 
         #Submit button
-        s_state=st.form_submit_button("Predict")
+        s_state=st.form_submit_button(label="Predict", help='Click to submit the form')
         #If one of the field is not filled will out warning
         if s_state:
             if gender=="---" or fbs=="---" or  exang=="---" or thal=="---" or  chest_pain=="---" or restecg=="---" or slope=="---":
@@ -184,6 +192,21 @@ if menu=="Predictions" or selected=="Predictions":
             else:
                 st.success("Submitted successfully")
                 switch_page("results")
-                
+    # with st.form(key='form1'):
+    #     name=st.text_input("Name")
+    #     gender=st.selectbox("Gender", options=("---", "Male","Female"))
+    #     age=st.slider("Age", min_value=0, max_value=100) 
+    #     s_state=st.form_submit_button(label='Predict')
+    # if s_state:
+    #     st.success("Hello {}, you have submitted SUCCESSFULLY".format(name))
 
 
+
+    #Make a checkbox
+    # def change():
+    #     switch_page("Statistics")
+    # state=st.checkbox("Learn more about heart disease", value=False, on_change=change, key="checker")
+    # if state:
+    #     st.write("Checked")
+    # else :
+    #     pass
