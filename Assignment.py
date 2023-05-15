@@ -184,7 +184,7 @@ if menu=="Predictions":
             oldpeak=col2.number_input("ST depression Induced by Exercise Relative to Rest", 0, 7)
 
         #Submit button
-        s_state=st.form_submit_button(label="Predict", help='Click to submit the form')
+        s_state=st.form_submit_button(label="Predict", help='Click to predict')
         #If one of the field is not filled will out warning
         if s_state:
             if gender=="---" or fbs=="---" or  exang=="---" or thal=="---" or  chest_pain=="---" or restecg=="---" or slope=="---":
